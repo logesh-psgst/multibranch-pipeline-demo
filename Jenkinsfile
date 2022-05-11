@@ -1,10 +1,6 @@
 pipeline {
 
-    agent {
-        node {
-            label 'master'
-        }
-    }
+    agent any
 
     options {
         buildDiscarder logRotator( 
@@ -65,5 +61,11 @@ pipeline {
             }
         }
 
-    }   
+    }  
+    post {
+        always {
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        }
+    }
+}
 }
